@@ -2,10 +2,11 @@
 
 # ścieżka do interpretera shebang
 
-# rysujemy prostokąt
+# losowość kolorów i deformacja 
 
 # załadowanie bibliotek
 import sys
+import random
 
 from glfw.GLFW import *
 
@@ -21,8 +22,9 @@ def startup():
 def shutdown():
     pass
 
-def narysujProstokatPls(x, y, a, b):
-    glColor3f(0, 0.9, 0.5)
+def narysujProstokatPls(x, y, a, b, d, r, g, bl):
+    a=a*d # nie wiem czy o to chodziło 
+    glColor3f(r, g, bl)
     glBegin(GL_TRIANGLES)
     glVertex2f(x, y) # origin point
     glVertex2f(x, y+a)
@@ -36,10 +38,10 @@ def narysujProstokatPls(x, y, a, b):
 
 # rysuje pojedynczą klatkę
 # ma być szybko bez zbędnych obliczeń
-def render(time):
+def render(time, r, g, bl):
     glClear(GL_COLOR_BUFFER_BIT) # czyszczenie ramki w pamięci
 
-    narysujProstokatPls(-50, -50, 60, 70)
+    narysujProstokatPls(-50, -50, 60, 70, 2, r, g, bl)
 
     glFlush()  # pamięć wysyłamy do wyświetlenia
 
@@ -90,9 +92,15 @@ def main():
     glfwSwapInterval(1)
 
     startup()
+    
+    # jak tu daje random to kolor się zmienia przy kolejnym odpalaniu programu
+    # można dać to w funkcji narysujprostokątpls to wtedy robi rave bo sie od nowa losują kolorki przy kazdym rysowaniu okna
+    r=random.random() # to daje float między 0 i 1 czyli to czego potrzebujemy do funkcji glColor3f
+    g=random.random()
+    bl=random.random()
     # powtarzamy aż do zamknięcia okna
     while not glfwWindowShouldClose(window):
-        render(glfwGetTime()) # nie ruszaj to sie renderuje, podmieniamy ramki obrazu
+        render(glfwGetTime(), r, g, bl) # nie ruszaj to sie renderuje, podmieniamy ramki obrazu
         
         # przetwarzanie zaistniałych okien i wejść i guess
         glfwSwapBuffers(window) 

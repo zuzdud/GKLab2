@@ -2,7 +2,7 @@
 
 # ścieżka do interpretera shebang
 
-# losowość kolorów i deformacja 
+# fraktal - dywan sierpińskiego 
 
 # załadowanie bibliotek
 import sys
@@ -22,27 +22,43 @@ def startup():
 def shutdown():
     pass
 
-def narysujProstokatPls(x, y, a, b, d, r, g, bl):
-    a=a*d # nie wiem czy o to chodziło 
+def narysujProstokatPls(x, y, a, b, r, g, bl):
     glColor3f(r, g, bl)
     glBegin(GL_TRIANGLES)
-    glVertex2f(x+d, y) # origin point
+    glVertex2f(x, y) # origin point
     glVertex2f(x, y+a)
     glVertex2f(x+b, y)
     glEnd()
     glBegin(GL_TRIANGLES)
-    glVertex2f(x+b+d, y+a) # origin point
+    glVertex2f(x+b, y+a) # origin point
     glVertex2f(x, y+a)
     glVertex2f(x+b, y)
     glEnd()
+    
+def rekurencyjneRysowanie(x, y, a, b, n):
+    if n==0:
+        return    
+    
+    for i in range(3):
+        for j in range(3):
+            if i == 1 and j==1:
+                narysujProstokatPls(x+(b/3), y+(a/3), a/3, b/3, 0.5, 0.5, 0.5)
+            else:
+                rekurencyjneRysowanie(x+(i*b/3), y+(j*a/3), a/3, b/3, n-1)
+    
 
 # rysuje pojedynczą klatkę
 # ma być szybko bez zbędnych obliczeń
-def render(time, r, g, bl):
+def render(time):
     glClear(GL_COLOR_BUFFER_BIT) # czyszczenie ramki w pamięci
+    x = -75
+    y = -75
+    a = 150
+    b = 150
 
-    narysujProstokatPls(-50, -50, 60, 70, 2, r, g, bl)
-
+    narysujProstokatPls(x, y, a, b, 0.3, 0.2, 0.8)
+    rekurencyjneRysowanie(x, y, a, b, 5)
+    
     glFlush()  # pamięć wysyłamy do wyświetlenia
 
 # przekształca przedział rysowania na [-100; 100]dla X i Y
@@ -92,15 +108,9 @@ def main():
     glfwSwapInterval(1)
 
     startup()
-    
-    # jak tu daje random to kolor się zmienia przy kolejnym odpalaniu programu
-    # można dać to w funkcji narysujprostokątpls to wtedy robi rave bo sie od nowa losują kolorki przy kazdym rysowaniu okna
-    r=random.random() # to daje float między 0 i 1 czyli to czego potrzebujemy do funkcji glColor3f
-    g=random.random()
-    bl=random.random()
     # powtarzamy aż do zamknięcia okna
     while not glfwWindowShouldClose(window):
-        render(glfwGetTime(), r, g, bl) # nie ruszaj to sie renderuje, podmieniamy ramki obrazu
+        render(glfwGetTime()) # nie ruszaj to sie renderuje, podmieniamy ramki obrazu
         
         # przetwarzanie zaistniałych okien i wejść i guess
         glfwSwapBuffers(window) 

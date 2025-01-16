@@ -36,6 +36,7 @@ def narysujProstokatPls(x, y, a, b, r, g, bl):
     glEnd()
     
 def rekurencyjneRysowanie(x, y, a, b, n):
+    # early exit
     if n==0:
         return    
     
@@ -56,7 +57,8 @@ def render(time):
     a = 150
     b = 150
 
-    narysujProstokatPls(x, y, a, b, 0.3, 0.2, 0.8)
+    # random jest tutaj więc nowy kolor się losuje przy każdym otworzeniu rysunku czyli w chuj szybko się zmienia
+    narysujProstokatPls(x, y, a, b, random.random(), random.random(), random.random())
     rekurencyjneRysowanie(x, y, a, b, 5)
     
     glFlush()  # pamięć wysyłamy do wyświetlenia

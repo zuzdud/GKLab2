@@ -30,11 +30,11 @@ def render(time):
     # nadaje kolor trójkątowi
     #glColor3f(0.0, 1.0, 0.0)
     glBegin(GL_TRIANGLES) # wskazujemy prymityw do rysowania
-    glColor3f(0, 0.5, 0.3)
+    glColor3ub(235, 218, 30)
     glVertex2f(0.0, 75.0) # umieszczamy wierzchołek w pamięci
-    glColor3f(0.9, 0.1, 0.7)
+    glColor3ub(235, 136, 30)
     glVertex2f(-50.0, 0.0)
-    glColor3f(0.3, 0.6, 0.1)
+    glColor3ub(92, 235, 30)
     glVertex2f(50.0, 0.0)
     glEnd()
 

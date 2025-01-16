@@ -24,6 +24,7 @@ def shutdown():
 
 def narysujProstokatPls(x, y, a, b, d, r, g, bl):
     a=a*d # nie wiem czy o to chodziło 
+    b=b/d
     glColor3f(r, g, bl)
     glBegin(GL_TRIANGLES)
     glVertex2f(x+d, y) # origin point
